@@ -1,144 +1,116 @@
----
+# LLM Chat & RAG Implementation Suite
 
-````markdown
-# LLM + RAG + GAR Demos
+A collection of Python scripts demonstrating various LLM integration patterns, from basic command-line interfaces to advanced RAG (Retrieval Augmented Generation) systems with Chainlit frontends.
 
-This repo contains simple scripts to demonstrate:
-- Chatting with local LLMs via Ollama
-- Adding LangChain wrappers
-- Using Chainlit as a frontend
-- Basic RAG (Retrieval Augmented Generation) with Chroma
-- Basic GAR (Generative AI Augmented Retrieval) on documents
-- Handling larger PDFs via RAG with Chainlit
-
----
-
-## 🔧 Setup
-
-Make sure you have:
-
-1. **Python 3.10+**  
-2. **Ollama installed and running**  
-   ```bash
-   ollama serve
-````
-
-3. Pull required models:
-
-   ```bash
-   ollama pull llama3.1
-   ollama pull nomic-embed-text
-   ```
-
-### 📦 Install Python dependencies
-
-Install these into your virtual environment:
+## 📋 Prerequisites
 
 ```bash
-pip install ollama chainlit langchain langchain-core langchain-ollama langchain-chroma langchain-text-splitters chromadb pypdf2 pdfplumber
+# Install required packages
+pip install langchain langchain-community chainlit chromadb pypdf sentence-transformers
 ```
 
----
+## 🗂️ Project Structure
 
-## 📂 Scripts
+### Basic LLM Integration
+- **1. base_llm_cmd_line.py** - Direct LLM chat interface from command line
+- **2. base_llm_cmd_line_with_langchain.py** - Command line chat using LangChain framework
+- **3. base_llm_chainlit.py** - LangChain chat with Chainlit web interface
 
-### 1. `1. base_llm_cmd_line.py`
+### Simple RAG (Retrieval Augmented Generation)
+- **4.1 simple_rag_chromadb.py** - Generate and populate simpleRAG collection in ChromaDB
+- **4.2 simple_rag_chmd_line.py** - Command line chat with simpleRAG context
 
-Run a simple command-line chat with an LLM of your choice.
+### GAR (Generation Augmented Retrieval)
+- **5. simple_gar.py** - Basic GAR implementation on text documents
 
+### Peak RAG (Advanced PDF Processing)
+- **6.1 peak_rag_chromadb.py** - Vectorize and store PDF embeddings in peakRAG collection
+- **6.2 peak_rag_chainlit.py** - Chat with large PDFs via Chainlit interface
+
+## 🚀 Usage
+
+### Basic LLM Chat
+
+**Script 1: Direct Command Line Chat**
 ```bash
-python 1.\ base_llm_cmd_line.py
+python "1. base_llm_cmd_line.py"
 ```
 
----
-
-### 2. `2. base_llm_cmd_line_with_langchain.py`
-
-Same as (1) but uses **LangChain** to interact with the LLM.
-
+**Script 2: LangChain Command Line Chat**
 ```bash
-python 2.\ base_llm_cmd_line_with_langchain.py
+python "2. base_llm_cmd_line_with_langchain.py"
 ```
 
----
-
-### 3. `3. base_llm_chainlit.py`
-
-Wraps LangChain chat into a **Chainlit frontend**.
-
-Run with:
-
+**Script 3: Chainlit Web Interface**
 ```bash
-python -m chainlit run ".\3. base_llm_chainlit.py" -w --port 5000
+python -m chainlit run "3. base_llm_chainlit.py" -w --port 5000
 ```
+Access at: `http://localhost:5000`
 
-Then open [http://localhost:5000](http://localhost:5000).
+### Simple RAG Implementation
 
----
-
-### 4.1 `4.1 simple_rag_chromadb.py`
-
-Builds a **simpleRAG collection** in ChromaDB from a text document.
-
+**Step 1: Create ChromaDB Collection**
 ```bash
-python 4.1\ simple_rag_chromadb.py docs.txt
+python "4.1 simple_rag_chromadb.py"
 ```
 
----
-
-### 4.2 `4.2 simple_rag_chmd_line.py`
-
-Chats with an LLM using **only the `simpleRAG` collection** as context.
-
+**Step 2: Chat with RAG Context**
 ```bash
-python 4.2\ simple_rag_chmd_line.py
+python "4.2 simple_rag_chmd_line.py"
 ```
 
----
+### GAR Implementation
 
-### 5. `5. simple_gar.py`
-
-A **basic GAR (Generative AI Augmented Retrieval)** implementation over a text document.
-Loads the document, augments queries with the LLM, and answers.
-
+**Run GAR on Text Documents**
 ```bash
-python 5.\ simple_gar.py
+python "5. simple_gar.py"
 ```
 
----
+### Peak RAG (PDF Processing)
 
-### 6.1 `6.1 peak_rag_chromadb.py`
-
-Vectorizes and stores embeddings from **PDF files** into a ChromaDB collection named **`peakRAG`**.
-
+**Step 1: Vectorize PDFs into ChromaDB**
 ```bash
-python 6.1\ peak_rag_chromadb.py "yourfile.pdf"
+python "6.1 peak_rag_chromadb.py"
 ```
 
----
-
-### 6.2 `6.2 peak_rag_chainlit.py`
-
-Chainlit app for chatting with an LLM using **PDF context** via the `peakRAG` collection.
-
+**Step 2: Chat with PDF Context**
 ```bash
-python -m chainlit run ".\6.2 peak_rag_chainlit.py" -w --port 5000
+python -m chainlit run "6.2 peak_rag_chainlit.py" -w --port 5000
 ```
-
----
+Access at: `http://localhost:5000`
 
 ## 📝 Notes
 
-* If Chainlit is not recognized, use:
+- **ChromaDB** is used as the vector database for RAG implementations
+- **Chainlit** provides an interactive web interface for chatting with LLMs
+- **Simple RAG** works with basic text collections
+- **Peak RAG** is optimized for large PDF document processing
+- Port 5000 is used by default for Chainlit apps (can be changed via `--port` flag)
 
-  ```bash
-  python -m chainlit run ...
-  ```
-* For PDF indexing, prefer **pdfplumber** (more reliable than PyPDF2).
-* If you see "Can't find in docs", the script will fall back to a default open-domain LLM answer.
+## 🔄 Workflow
 
----
+### For Simple RAG:
+1. Run `4.1` to create your vector database
+2. Run `4.2` to chat with the stored context
 
+### For Peak RAG:
+1. Run `6.1` to process and store your PDFs
+2. Run `6.2` to launch the chat interface
+
+## 💡 Tips
+
+- The `-w` flag in Chainlit commands enables auto-reload on file changes
+- Make sure ChromaDB collections are created before running chat scripts
+- For best results, ensure your PDFs are text-based (not scanned images)
+
+## 🐛 Troubleshooting
+
+If you encounter module import errors:
+```bash
+pip install --upgrade langchain langchain-community langchain-openai
 ```
 
----
+If ChromaDB fails to initialize:
+```bash
+pip install --upgrade chromadb
+```
