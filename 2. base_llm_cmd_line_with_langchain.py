@@ -1,10 +1,5 @@
-# lc_cli_chat_fixed.py
-# Recommended pins (PowerShell):
-# pip install -U "pydantic>=2.7,<3" "langchain>=0.2,<0.4" "langchain-core>=0.2,<0.4" "langchain-ollama>=0.1.3"
-
 import argparse
 
-# --- bring forward-ref types into scope BEFORE model_rebuild ---
 from langchain_core.caches import BaseCache  # noqa: F401
 from langchain_core.callbacks import Callbacks  # noqa: F401
 
@@ -21,8 +16,8 @@ ChatOllama.model_rebuild(
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--system", default="You are a concise, friendly assistant.")
-    # ap.add_argument("--system", default="You are a translator. Simply translate the input text to old English")
+    # ap.add_argument("--system", default="You are a concise, friendly assistant.")
+    ap.add_argument("--system", default="You are a translator. Simply translate the input text to Tamil.")
 
     ap.add_argument("--model", default="llama3.1", help="Ollama model, e.g. llama3.1:8b")
     ap.add_argument("--temperature", type=float, default=0.7)
